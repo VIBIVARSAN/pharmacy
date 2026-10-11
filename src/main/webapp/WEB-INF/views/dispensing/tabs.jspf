@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link ${dispTab == 'queue' ? 'active' : ''}" href="${ctx}/dispensing" <c:if test="${dispTab == 'queue'}">aria-current="page"</c:if>>Awaiting dispensing</a></li>
+    <li class="nav-item"><a class="nav-link ${dispTab == 'history' ? 'active' : ''}" href="${ctx}/dispensing/history" <c:if test="${dispTab == 'history'}">aria-current="page"</c:if>>Dispensing history</a></li>
+</ul>

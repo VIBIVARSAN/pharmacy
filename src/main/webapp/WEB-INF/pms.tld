@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-jsptaglibrary_3_0.xsd"
+        version="3.0">
+    <description>Formatting functions for dates, money and enum labels</description>
+    <tlib-version>1.0</tlib-version>
+    <short-name>f</short-name>
+    <uri>http://pharmacy.com/functions</uri>
+    <function>
+        <name>date</name>
+        <function-class>com.pharmacy.util.ViewFunctions</function-class>
+        <function-signature>java.lang.String date(java.time.LocalDate)</function-signature>
+    </function>
+    <function>
+        <name>dateTime</name>
+        <function-class>com.pharmacy.util.ViewFunctions</function-class>
+        <function-signature>java.lang.String dateTime(java.time.LocalDateTime)</function-signature>
+    </function>
+    <function>
+        <name>money</name>
+        <function-class>com.pharmacy.util.ViewFunctions</function-class>
+        <function-signature>java.lang.String money(java.math.BigDecimal)</function-signature>
+    </function>
+    <function>
+        <name>label</name>
+        <function-class>com.pharmacy.util.ViewFunctions</function-class>
+        <function-signature>java.lang.String label(java.lang.Object)</function-signature>
+    </function>
+</taglib>

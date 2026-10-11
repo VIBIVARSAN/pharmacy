@@ -1,0 +1,21 @@
+# Build output
+target/
+*.war
+*.class
+
+# Local configuration with real credentials - never commit these
+src/main/resources/db.properties
+.env
+*.local.properties
+
+# IDE / OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.DS_Store
+Thumbs.db
+*.log

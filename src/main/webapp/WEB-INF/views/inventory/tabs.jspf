@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs d-print-none">
+    <li class="nav-item"><a class="nav-link ${invTab == 'batches' ? 'active' : ''}" href="${ctx}/inventory" <c:if test="${invTab == 'batches'}">aria-current="page"</c:if>>Batches</a></li>
+    <li class="nav-item"><a class="nav-link ${invTab == 'transactions' ? 'active' : ''}" href="${ctx}/inventory/transactions" <c:if test="${invTab == 'transactions'}">aria-current="page"</c:if>>Stock ledger</a></li>
+</ul>

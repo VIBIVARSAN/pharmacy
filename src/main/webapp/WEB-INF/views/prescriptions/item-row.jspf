@@ -1,0 +1,36 @@
+<%-- One medicine row of the prescription form. Uses "item" when re-displaying saved or rejected input. --%>
+<div class="item-row">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <strong>Medicine <span class="item-number"></span></strong>
+        <button type="button" class="btn btn-sm btn-outline-danger" data-remove-row><ui:icon name="x-lg"/> Remove</button>
+    </div>
+    <div class="row g-2">
+        <div class="col-lg-5">
+            <label class="form-label">Medicine <span class="req" aria-hidden="true">*</span>
+            <select class="form-select mt-1" name="itemMedicineId" required>
+                <option value="">Select a medicine...</option>
+                <c:forEach var="m" items="${medicines}"><option value="${m.id}" ${item.medicineId == m.id ? 'selected' : ''}><c:out value="${m.label}"/></option></c:forEach>
+            </select></label>
+        </div>
+        <div class="col-6 col-lg-2">
+            <label class="form-label">Dosage <span class="req" aria-hidden="true">*</span>
+            <input class="form-control mt-1" type="text" name="itemDosage" maxlength="100" required placeholder="e.g. 1 tablet" value="${fn:escapeXml(item.dosage)}"></label>
+        </div>
+        <div class="col-6 col-lg-3">
+            <label class="form-label">Frequency <span class="req" aria-hidden="true">*</span>
+            <input class="form-control mt-1" type="text" name="itemFrequency" maxlength="100" required placeholder="e.g. Twice daily" value="${fn:escapeXml(item.frequency)}"></label>
+        </div>
+        <div class="col-6 col-lg-2">
+            <label class="form-label">Quantity <span class="req" aria-hidden="true">*</span>
+            <input class="form-control mt-1" type="number" name="itemQuantity" min="1" step="1" max="100000" required value="${item.quantity}"></label>
+        </div>
+        <div class="col-6 col-lg-3">
+            <label class="form-label">Duration
+            <input class="form-control mt-1" type="text" name="itemDuration" maxlength="100" placeholder="e.g. 5 days" value="${fn:escapeXml(item.duration)}"></label>
+        </div>
+        <div class="col-lg-9">
+            <label class="form-label w-100">Instructions
+            <input class="form-control mt-1" type="text" name="itemInstructions" maxlength="300" placeholder="e.g. After food" value="${fn:escapeXml(item.instructions)}"></label>
+        </div>
+    </div>
+</div>

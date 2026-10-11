@@ -1,0 +1,85 @@
+<%-- Shared page chrome: <head>, sidebar and top bar. Expects pageTitle and nav to be set by the page. --%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><c:out value="${pageTitle}"/> &middot; <c:out value="${settings.pharmacy_name}"/></title>
+    <link rel="icon" href="${ctx}/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="${ctx}/assets/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/assets/css/app.css">
+</head>
+<body data-ctx="${ctx}" data-currency="${fn:escapeXml(settings.currency_symbol)}">
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+        <a class="brand" href="${ctx}/dashboard">
+            <span class="brand-mark"><ui:icon name="heart-pulse"/></span>
+            <span class="brand-text"><c:out value="${settings.pharmacy_name}"/><small>Prescription Management</small></span>
+        </a>
+        <nav class="side-nav">
+            <a class="side-link ${nav == 'dashboard' ? 'active' : ''}" href="${ctx}/dashboard" <c:if test="${nav == 'dashboard'}">aria-current="page"</c:if>><ui:icon name="speedometer2"/><span>Dashboard</span></a>
+
+            <div class="side-heading">Clinical</div>
+            <a class="side-link ${nav == 'patients' ? 'active' : ''}" href="${ctx}/patients" <c:if test="${nav == 'patients'}">aria-current="page"</c:if>><ui:icon name="people"/><span>Patients</span></a>
+            <a class="side-link ${nav == 'doctors' ? 'active' : ''}" href="${ctx}/doctors" <c:if test="${nav == 'doctors'}">aria-current="page"</c:if>><ui:icon name="person-badge"/><span>Doctors</span></a>
+            <a class="side-link ${nav == 'prescriptions' ? 'active' : ''}" href="${ctx}/prescriptions" <c:if test="${nav == 'prescriptions'}">aria-current="page"</c:if>><ui:icon name="file-medical"/><span>Prescriptions</span></a>
+
+            <div class="side-heading">Pharmacy</div>
+            <a class="side-link ${nav == 'dispensing' ? 'active' : ''}" href="${ctx}/dispensing" <c:if test="${nav == 'dispensing'}">aria-current="page"</c:if>><ui:icon name="bag-check"/><span>Dispensing</span></a>
+            <a class="side-link ${nav == 'invoices' ? 'active' : ''}" href="${ctx}/invoices" <c:if test="${nav == 'invoices'}">aria-current="page"</c:if>><ui:icon name="receipt"/><span>Billing</span></a>
+
+            <div class="side-heading">Stock</div>
+            <a class="side-link ${nav == 'medicines' ? 'active' : ''}" href="${ctx}/medicines" <c:if test="${nav == 'medicines'}">aria-current="page"</c:if>><ui:icon name="capsule"/><span>Medicines</span></a>
+            <a class="side-link ${nav == 'inventory' ? 'active' : ''}" href="${ctx}/inventory" <c:if test="${nav == 'inventory'}">aria-current="page"</c:if>><ui:icon name="box-seam"/><span>Inventory</span></a>
+            <a class="side-link ${nav == 'suppliers' ? 'active' : ''}" href="${ctx}/suppliers" <c:if test="${nav == 'suppliers'}">aria-current="page"</c:if>><ui:icon name="truck"/><span>Suppliers</span></a>
+
+            <c:if test="${authUser.admin}">
+                <div class="side-heading">Administration</div>
+                <a class="side-link ${nav == 'reports' ? 'active' : ''}" href="${ctx}/reports" <c:if test="${nav == 'reports'}">aria-current="page"</c:if>><ui:icon name="bar-chart"/><span>Reports</span></a>
+                <a class="side-link ${nav == 'users' ? 'active' : ''}" href="${ctx}/users" <c:if test="${nav == 'users'}">aria-current="page"</c:if>><ui:icon name="shield-lock"/><span>Users</span></a>
+                <a class="side-link ${nav == 'audit' ? 'active' : ''}" href="${ctx}/audit-logs" <c:if test="${nav == 'audit'}">aria-current="page"</c:if>><ui:icon name="journal-text"/><span>Audit log</span></a>
+                <a class="side-link ${nav == 'settings' ? 'active' : ''}" href="${ctx}/settings" <c:if test="${nav == 'settings'}">aria-current="page"</c:if>><ui:icon name="gear"/><span>Settings</span></a>
+            </c:if>
+        </nav>
+    </aside>
+    <div class="sidebar-backdrop" data-sidebar-close></div>
+
+    <div class="app-main">
+        <header class="topbar">
+            <button class="icon-btn" type="button" id="sidebarToggle" aria-label="Toggle navigation" aria-controls="sidebar"><ui:icon name="list"/></button>
+            <form class="global-search" action="${ctx}/search" method="get" role="search">
+                <ui:icon name="search"/>
+                <label class="visually-hidden" for="globalSearch">Search patients, doctors, medicines, prescriptions and invoices</label>
+                <input id="globalSearch" type="search" name="q" maxlength="100" placeholder="Search patients, medicines, prescriptions, invoices..." value="${fn:escapeXml(nav == 'search' ? q : '')}">
+            </form>
+            <div class="topbar-actions">
+                <div class="dropdown">
+                    <button class="icon-btn" type="button" id="alertsButton" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Stock alerts">
+                        <ui:icon name="bell"/><span class="alert-dot d-none" id="alertsDot"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end alerts-menu" aria-labelledby="alertsButton">
+                        <div class="alerts-title">Stock alerts</div>
+                        <div id="alertsBody" aria-live="polite">
+                            <div class="alerts-loading"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Loading alerts...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="profile-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="avatar" aria-hidden="true"><c:out value="${fn:toUpperCase(fn:substring(authUser.fullName, 0, 1))}"/></span>
+                        <span class="profile-meta"><span class="profile-name"><c:out value="${authUser.fullName}"/></span><span class="profile-role"><c:out value="${authUser.role.label}"/></span></span>
+                        <ui:icon name="chevron-down"/>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="${ctx}/profile"><ui:icon name="person"/> My profile</a>
+                        <div class="dropdown-divider"></div>
+                        <form action="${ctx}/logout" method="post">
+                            <ui:csrf/>
+                            <button class="dropdown-item" type="submit"><ui:icon name="box-arrow-right"/> Sign out</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main id="main" class="content" tabindex="-1">
